@@ -38,7 +38,7 @@ public class OrderGroup{
 
     private LocalDateTime orderAt;
 
-    private LocalDateTime arrivalAt;
+    private LocalDateTime arrivalDate;
 
     private LocalDateTime createdAt;
 
