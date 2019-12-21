@@ -27,8 +27,8 @@ public class OrderDetailRepositoryTest extends DemoApplicationTests{
         orderDetail.setCreatedAt(LocalDateTime.now());
         orderDetail.setCreatedBy("Admin Server");
         
-        orderDetail.setOrderGroupId(1L);
-        orderDetail.setItemId(1L);
+        // orderDetail.setOrderGroupId(1L);
+        // orderDetail.setItemId(1L);
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
 
