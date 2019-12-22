@@ -2,24 +2,38 @@ package com.fastcampus.admin.controller.api;
 
 import com.fastcampus.admin.ifs.CrudInterface;
 import com.fastcampus.admin.model.network.Header;
+import com.fastcampus.admin.model.network.request.UserApiRequest;
+import com.fastcampus.admin.model.network.response.UserApiResponse;
+import com.fastcampus.admin.repository.UserRepository;
+import com.fastcampus.admin.service.UserApiLogicService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j // debugging 을 위한 logfile 생성 annotation
 @RestController
 @RequestMapping("/api/user")
-public class UserApiController implements CrudInterface{
+public class UserApiController implements CrudInterface<UserApiRequest,UserApiResponse>{
+
+    @Autowired
+    private UserApiLogicService userApiLogicService;
 
     @Override
     @PostMapping("") //     /api/user
-    public Header create() {
+    public Header<UserApiResponse> create(@RequestBody Header<UserApiRequest> request) {
         // TODO Auto-generated method stub
-        return null;
+
+        log.info("{}",request); // request.toString()
+        return userApiLogicService.create(request);
     }
 
 
@@ -32,23 +46,26 @@ public class UserApiController implements CrudInterface{
 
     @Override
     @GetMapping("{id}") // /api/user/{id}
-    public Header read(@PathVariable Long id) {
+    public Header<UserApiResponse> read(@PathVariable Long id) {
         // TODO Auto-generated method stub
-        return null;
+        log.info("{}",id);
+        return userApiLogicService.read(id);
     }
 
     @Override
     @PutMapping("") // /api/user
-    public Header update() {
+    public Header<UserApiResponse> update(@RequestBody Header<UserApiRequest> request) {
         // TODO Auto-generated method stub
-        return null;
+        log.info("{}",request);
+        return userApiLogicService.update(request);
     }
 
     @Override
     @DeleteMapping("{id}")
     public Header delete(@PathVariable Long id) {
         // TODO Auto-generated method stub
-        return null;
+        log.info("{}",id);
+        return userApiLogicService.delete(id);
     }
 
 }
