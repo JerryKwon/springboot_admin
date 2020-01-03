@@ -12,7 +12,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity security) throws Exception {
         // TODO Auto-generated method stub
-        security.httpBasic().disable();
+        // security.httpBasic().disable();
+        security.cors().and();
+        security.csrf().disable();
     }
 
 }
