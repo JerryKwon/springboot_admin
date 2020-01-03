@@ -41,9 +41,12 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         User newUser = userRepository.save(user);
 
 
-        Header<UserApiResponse> response = response(newUser);
+        // Header<UserApiResponse> response = response(newUser);
 
-        return response;
+        // return response;
+
+        return response(newUser);
+
     }
 
     @Override
