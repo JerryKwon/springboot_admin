@@ -14,7 +14,6 @@ public class ItemRepositoryTest extends DemoApplicationTests{
     @Autowired
     private ItemRepository itemRepository;
 
-    @Test
     public void create(){
 
         Item item = new Item();
