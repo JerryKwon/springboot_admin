@@ -2,9 +2,9 @@ package com.fastcampus.admin.controller.api;
 
 import com.fastcampus.admin.ifs.CrudInterface;
 import com.fastcampus.admin.model.network.Header;
-import com.fastcampus.admin.model.network.request.ItemApiRequest;
-import com.fastcampus.admin.model.network.response.ItemApiResponse;
-import com.fastcampus.admin.service.ItemApiLogicService;
+import com.fastcampus.admin.model.network.request.OrderDetailApiRequest;
+import com.fastcampus.admin.model.network.response.OrderDetailApiResponse;
+import com.fastcampus.admin.service.OrderDetailApiLogicService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,40 +17,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/item")
-public class ItemApiController implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+@RequestMapping("/api/orderDetail")
+public class OrderDetailApiController implements CrudInterface<OrderDetailApiRequest,OrderDetailApiResponse> {
 
     @Autowired
-    private ItemApiLogicService itemApiLogicService;
+    OrderDetailApiLogicService orderDetailApiLogicService;
 
-    @Override
     @PostMapping("")
-    public Header<ItemApiResponse> create(@RequestBody Header<ItemApiRequest> request) {
-        // TODO Auto-generated method stub
-        return itemApiLogicService.create(request);
-    }
-
     @Override
+    public Header<OrderDetailApiResponse> create(@RequestBody Header<OrderDetailApiRequest> request) {
+        // TODO Auto-generated method stub
+        return orderDetailApiLogicService.create(request);
+    }
     @GetMapping("{id}")
-    public Header<ItemApiResponse> read(@PathVariable Long id) {
+    @Override
+    public Header<OrderDetailApiResponse> read(@PathVariable Long id) {
         // TODO Auto-generated method stub
-        return itemApiLogicService.read(id);
+        return null;
     }
 
+    @GetMapping("")
     @Override
-    @PutMapping("")
-    public Header<ItemApiResponse> update(@RequestBody Header<ItemApiRequest> request) {
+    public Header<OrderDetailApiResponse> update(@RequestBody Header<OrderDetailApiRequest> request) {
         // TODO Auto-generated method stub
-
-        return itemApiLogicService.update(request);
+        return null;
     }
 
-    @Override
     @DeleteMapping("{id}")
+    @Override
     public Header delete(@PathVariable Long id) {
         // TODO Auto-generated method stub
-        
-        return itemApiLogicService.delete(id);
+        return null;
     }
 
 }

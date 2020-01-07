@@ -14,6 +14,7 @@ import com.fastcampus.admin.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
 
@@ -65,6 +66,34 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     @Override
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
         // TODO Auto-generated method stub
+        
+        ItemApiRequest body = request.getData();
+
+        // Optional<Item> optional = itemRepository.findById(body.getId());
+
+        itemRepository.findById(body.getId()).map(item->{
+            item
+                .setStatus(body.getStatus())
+                .setName(body.getName())
+                .setTitle(body.getTitle())
+                .setContent(body.getContent())
+                .setPrice(body.getPrice())
+                .setBrandName(body.getBrandName())
+                .setRegisteredAt(body.getRegisteredAt())
+                .setUnregisteredAt(body.getUnregisteredAt());
+
+            return item;
+
+        }).map(newItem ->{      // 맵 함수에 중괄호 없으면 return이 생략.
+            itemRepository.save(newItem);
+            return newItem;
+        }).map(newItem->{
+            return response(newItem);
+        })
+        .orElseGet(()->{
+            return Header.Error("일치하는 데이터 없음");
+        });
+
         return null;
     }
 
