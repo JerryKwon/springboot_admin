@@ -33,21 +33,21 @@ public class OrderDetailApiController implements CrudInterface<OrderDetailApiReq
     @Override
     public Header<OrderDetailApiResponse> read(@PathVariable Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return orderDetailApiLogicService.read(id);
     }
 
     @GetMapping("")
     @Override
     public Header<OrderDetailApiResponse> update(@RequestBody Header<OrderDetailApiRequest> request) {
         // TODO Auto-generated method stub
-        return null;
+        return orderDetailApiLogicService.update(request);
     }
 
     @DeleteMapping("{id}")
     @Override
     public Header delete(@PathVariable Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return orderDetailApiLogicService.delete(id);
     }
 
 }
