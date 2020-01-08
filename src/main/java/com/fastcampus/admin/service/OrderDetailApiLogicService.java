@@ -1,5 +1,7 @@
 package com.fastcampus.admin.service;
 
+import java.util.Optional;
+
 import com.fastcampus.admin.ifs.CrudInterface;
 import com.fastcampus.admin.model.entity.OrderDetail;
 import com.fastcampus.admin.model.network.Header;
@@ -52,19 +54,59 @@ public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiR
     @Override
     public Header<OrderDetailApiResponse> read(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        
+        // Optional<OrderDetail> body = orderDetailRepository.findById(id);
+        
+        return orderDetailRepository.findById(id).map(orderDetail -> {
+            return response(orderDetail);
+        }).orElseGet(() -> {
+            return Header.Error("해당 데이터 없음");
+        });
+
     }
 
     @Override
     public Header<OrderDetailApiResponse> update(Header<OrderDetailApiRequest> request) {
         // TODO Auto-generated method stub
-        return null;
+        
+        // 1. HTML 태그 중에 Data 부분 추출
+        OrderDetailApiRequest body = request.getData();
+
+        // .status(body.getStatus())
+        // .arrivalDate(body.getArrivalDate())
+        // .quantity(body.getQuantity())
+        // .totalPrice(body.getTotalPrice())
+        // .createdAt(body.getCreatedAt())
+        // .createdBy(body.getCreatedBy())
+
+        return orderDetailRepository.findById(body.getId()).map(orderDetail->
+            orderDetail
+                        .setStatus(body.getStatus())
+                        .setArrivalDate(body.getArrivalDate())
+                        .setQuantity(body.getQuantity())
+                        .setTotalPrice(body.getTotalPrice())
+                        .setCreatedAt(body.getCreatedAt())
+                        .setCreatedBy(body.getCreatedBy())
+                        .setUpdatedAt(body.getUpdatedAt())
+                        .setUpdatedBy(body.getUpdatedBy())
+        )
+        .map(orderDetail -> orderDetailRepository.save(orderDetail))
+        .map(orderDetail -> response(orderDetail))
+        .orElseGet(() ->{
+            return Header.Error("해당하는 데이터 없음");
+        });
+
     }
 
     @Override
     public Header delete(Long id) {
         // TODO Auto-generated method stub
-        return null;
+        return orderDetailRepository.findById(id)
+                                .map(orderDetail -> {
+                                    orderDetailRepository.delete(orderDetail);
+                                    return Header.OK();
+                                })
+                                .orElseGet(() -> Header.Error("해당 데이터 없음"));
     }
 
     public Header<OrderDetailApiResponse> response(OrderDetail orderDetail){
