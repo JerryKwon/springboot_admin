@@ -7,6 +7,8 @@ import com.fastcampus.admin.model.network.response.OrderGroupApiResponse;
 import com.fastcampus.admin.service.OrderGroupApiLogicService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,25 +20,25 @@ public class OrderGroupApiController implements CrudInterface<OrderGroupApiReque
     OrderGroupApiLogicService orderGroupApiLogicService;
 
     @Override
-    public Header<OrderGroupApiResponse> create(Header<OrderGroupApiRequest> request) {
+    public Header<OrderGroupApiResponse> create(@RequestBody Header<OrderGroupApiRequest> request) {
         // TODO Auto-generated method stub
         return orderGroupApiLogicService.create(request);
     }
 
     @Override
-    public Header<OrderGroupApiResponse> read(Long id) {
+    public Header<OrderGroupApiResponse> read(@PathVariable Long id) {
         // TODO Auto-generated method stub
         return orderGroupApiLogicService.read(id);
     }
 
     @Override
-    public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
+    public Header<OrderGroupApiResponse> update(@RequestBody Header<OrderGroupApiRequest> request) {
         // TODO Auto-generated method stub
         return orderGroupApiLogicService.update(request);
     }
 
     @Override
-    public Header delete(Long id) {
+    public Header delete(@PathVariable Long id) {
         // TODO Auto-generated method stub
         return null;
     }

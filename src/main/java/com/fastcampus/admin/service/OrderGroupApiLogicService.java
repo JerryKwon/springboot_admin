@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiRequest, OrderGroupApiResponse> {
     
     @Autowired
-    OrderGroupRepository orderGroupRepository;
+    private OrderGroupRepository orderGroupRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public Header<OrderGroupApiResponse> create(Header<OrderGroupApiRequest> request) {
@@ -62,13 +62,43 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
     @Override
     public Header<OrderGroupApiResponse> update(Header<OrderGroupApiRequest> request) {
         // TODO Auto-generated method stub
-        return null;
+        
+        OrderGroupApiRequest body = request.getData();
+
+
+        return orderGroupRepository.findById(body.getId()).map(
+            orderGroup -> {
+             return orderGroup.setUser(userRepository.getOne(body.getUserId()))
+                            .setStatus(body.getStatus())
+                            .setOrderType(body.getOrderType())
+                            .setRevAddress(body.getRevAddress())
+                            .setRevName(body.getRevName())
+                            .setPaymentType(body.getPaymentType())
+                            .setTotalPrice(body.getTotalPrice())
+                            .setTotalQuantity(body.getTotalQuantity())
+                            .setOrderAt(body.getOrderAt())
+                            .setArrivalDate(body.getArrivalDate())
+                            .setCreatedAt(body.getCreatedAt())
+                            .setCreatedBy(body.getCreatedBy())
+                            .setUpdatedAt(body.getUpdatedAt())
+                            .setUpdatedBy(body.getUpdatedBy());
+            }
+        ).map(orderGroup -> orderGroupRepository.save(orderGroup))
+        .map(orderGroup -> response(orderGroup))
+        .orElseGet(() -> Header.Error("해당데이터 없음."));
+    
     }
 
     @Override
     public Header delete(Long id) {
         // TODO Auto-generated method stub
         
+        orderGroupRepository.findById(id)
+        .map(orderGroup -> {
+            orderGroupRepository.delete(orderGroup);
+            return Header.OK();
+        })
+        .orElseGet(() -> Header.Error("해당 데이터 없음"));
         
         return null;
     }
