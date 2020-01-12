@@ -1,6 +1,5 @@
 package com.fastcampus.admin.service;
 
-import com.fastcampus.admin.ifs.CrudInterface;
 import com.fastcampus.admin.model.entity.OrderGroup;
 import com.fastcampus.admin.model.network.Header;
 import com.fastcampus.admin.model.network.request.OrderGroupApiRequest;
@@ -12,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiRequest, OrderGroupApiResponse> {
+public class OrderGroupApiLogicService extends BaseService<OrderGroupApiRequest, OrderGroupApiResponse,OrderGroup> {
     
-    @Autowired
-    private OrderGroupRepository orderGroupRepository;
+    // @Autowired
+    // private OrderGroupRepository orderGroupRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,7 +42,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
                                                 .createdBy(orderGroupApiRequest.getCreatedBy()).build();
 
         // 3. 응답을 api에서 명시한 형태를 body로 하여 Header 아래에 전달                                       
-        return response(newOrderGroup);
+        return response(baseRepository.save(newOrderGroup));
         
         // return null;
     }
@@ -53,7 +52,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
         // TODO Auto-generated method stub
         
         // 해당 엔터티를 읽어서 반응을 위한 함수에 엮어서 바로 return
-        return orderGroupRepository.findById(id)
+        return baseRepository.findById(id)
                                     .map(orderGroup -> response(orderGroup))
                                     .orElseGet(() -> Header.Error("일치하는 데이터 없음"));
 
@@ -66,7 +65,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
         OrderGroupApiRequest body = request.getData();
 
 
-        return orderGroupRepository.findById(body.getId()).map(
+        return baseRepository.findById(body.getId()).map(
             orderGroup -> {
              return orderGroup.setUser(userRepository.getOne(body.getUserId()))
                             .setStatus(body.getStatus())
@@ -83,7 +82,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
                             .setUpdatedAt(body.getUpdatedAt())
                             .setUpdatedBy(body.getUpdatedBy());
             }
-        ).map(orderGroup -> orderGroupRepository.save(orderGroup))
+        ).map(orderGroup -> baseRepository.save(orderGroup))
         .map(orderGroup -> response(orderGroup))
         .orElseGet(() -> Header.Error("해당데이터 없음."));
     
@@ -93,14 +92,13 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
     public Header delete(Long id) {
         // TODO Auto-generated method stub
         
-        orderGroupRepository.findById(id)
+        return baseRepository.findById(id)
         .map(orderGroup -> {
-            orderGroupRepository.delete(orderGroup);
+            baseRepository.delete(orderGroup);
             return Header.OK();
         })
         .orElseGet(() -> Header.Error("해당 데이터 없음"));
         
-        return null;
     }
 
     // Request에 대한 응답으로 Header를 씌우기 위한 마무리 함수

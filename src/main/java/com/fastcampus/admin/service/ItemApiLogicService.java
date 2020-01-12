@@ -3,12 +3,10 @@ package com.fastcampus.admin.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import com.fastcampus.admin.ifs.CrudInterface;
 import com.fastcampus.admin.model.entity.Item;
 import com.fastcampus.admin.model.network.Header;
 import com.fastcampus.admin.model.network.request.ItemApiRequest;
 import com.fastcampus.admin.model.network.response.ItemApiResponse;
-import com.fastcampus.admin.repository.ItemRepository;
 import com.fastcampus.admin.repository.PartnerRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+public class ItemApiLogicService extends BaseService<ItemApiRequest,ItemApiResponse,Item>  {
 
-    @Autowired
-    private ItemRepository itemRepository;
+    // @Autowired
+    // private ItemRepository itemRepository;
 
     @Autowired
     private PartnerRepository partnerRepository;
@@ -40,7 +38,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                         .registeredAt(LocalDateTime.now())
                         .partner(partnerRepository.getOne(body.getPartnerId())).build();
         
-        Item newItem = itemRepository.save(item);
+        Item newItem = baseRepository.save(item);
 
         return response(newItem);
     
@@ -55,7 +53,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
         //     Header.Error("데이터 없음");
         // });
 
-        return itemRepository.findById(id).map(item->{
+        return baseRepository.findById(id).map(item->{
             return response(item);
         }).orElseGet(()->{
             return Header.Error("데이터 없음");
@@ -71,7 +69,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
         // Optional<Item> optional = itemRepository.findById(body.getId());
 
-        itemRepository.findById(body.getId()).map(item->{
+        baseRepository.findById(body.getId()).map(item->{
             item
                 .setStatus(body.getStatus())
                 .setName(body.getName())
@@ -85,7 +83,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
             return item;
 
         }).map(newItem ->{      // 맵 함수에 중괄호 없으면 return이 생략.
-            itemRepository.save(newItem);
+            baseRepository.save(newItem);
             return newItem;
         }).map(newItem->{
             return response(newItem);
@@ -101,11 +99,11 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     public Header delete(Long id) {
         // TODO Auto-generated method stub
 
-        Optional<Item> optional = itemRepository.findById(id);
+        Optional<Item> optional = baseRepository.findById(id);
 
         return optional.map(item->{
 
-            itemRepository.delete(item); // delete 는 void 형태를 return 하기 때문에 OKAY를 따로 구성함.
+            baseRepository.delete(item); // delete 는 void 형태를 return 하기 때문에 OKAY를 따로 구성함.
 
             return Header.OK();
         }).orElseGet(()->{
@@ -117,6 +115,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     // 동작한 내용에 대해 응답하여 Header를 부르는 함수
     private Header<ItemApiResponse> response(Item item){
 
+        // item.getStatus().getTitle(); 로 api에 실제 값이 아닌 title을 넘겨줄 수 도 있음!
 
         ItemApiResponse body = ItemApiResponse.builder()
                                                 .id(item.getId())

@@ -2,6 +2,11 @@ package com.fastcampus.admin.model.network.request;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+import com.fastcampus.admin.model.enumclass.UserStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +24,7 @@ public class UserApiRequest{
 
     private String password;
 
-    private String status;
+    private UserStatus status;
 
     private String email;
 

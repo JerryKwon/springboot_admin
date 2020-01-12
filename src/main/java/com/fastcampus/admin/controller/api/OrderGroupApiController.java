@@ -1,6 +1,7 @@
 package com.fastcampus.admin.controller.api;
 
-import com.fastcampus.admin.ifs.CrudInterface;
+import com.fastcampus.admin.controller.CrudController;
+import com.fastcampus.admin.model.entity.OrderGroup;
 import com.fastcampus.admin.model.network.Header;
 import com.fastcampus.admin.model.network.request.OrderGroupApiRequest;
 import com.fastcampus.admin.model.network.response.OrderGroupApiResponse;
@@ -14,33 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/orderGroup")
-public class OrderGroupApiController implements CrudInterface<OrderGroupApiRequest, OrderGroupApiResponse> {
-
-    @Autowired
-    OrderGroupApiLogicService orderGroupApiLogicService;
-
-    @Override
-    public Header<OrderGroupApiResponse> create(@RequestBody Header<OrderGroupApiRequest> request) {
-        // TODO Auto-generated method stub
-        return orderGroupApiLogicService.create(request);
-    }
-
-    @Override
-    public Header<OrderGroupApiResponse> read(@PathVariable Long id) {
-        // TODO Auto-generated method stub
-        return orderGroupApiLogicService.read(id);
-    }
-
-    @Override
-    public Header<OrderGroupApiResponse> update(@RequestBody Header<OrderGroupApiRequest> request) {
-        // TODO Auto-generated method stub
-        return orderGroupApiLogicService.update(request);
-    }
-
-    @Override
-    public Header delete(@PathVariable Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class OrderGroupApiController extends CrudController<OrderGroupApiRequest, OrderGroupApiResponse,OrderGroup> {
 
 }
