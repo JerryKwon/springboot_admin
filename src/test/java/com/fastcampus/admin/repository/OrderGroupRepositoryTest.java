@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.fastcampus.admin.DemoApplicationTests;
 import com.fastcampus.admin.model.entity.OrderGroup;
+import com.fastcampus.admin.model.enumclass.OrderType;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class OrderGroupRepositoryTest extends DemoApplicationTests{
         OrderGroup orderGroup = new OrderGroup();
 
         orderGroup.setStatus("COMPLETE");
-        orderGroup.setOrderType("ALL");
+        orderGroup.setOrderType(OrderType.ALL);
         orderGroup.setRevAddress("서울시 강남구");
         orderGroup.setRevName("홍길동");
         orderGroup.setPaymentType("CARD");

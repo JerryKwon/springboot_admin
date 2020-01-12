@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, PartnerApiResponse> {
+public class PartnerApiLogicService extends BaseService<PartnerApiRequest, PartnerApiResponse,Partner> {
 
-    @Autowired
-    private PartnerRepository partnerRepository;
+    // @Autowired
+    // private PartnerRepository partnerRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -41,7 +41,7 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
                                     .category(categoryRepository.getOne(body.getCategoryId()))
                                     .build();
 
-        Partner partner = partnerRepository.save(newPartner);
+        Partner partner = baseRepository.save(newPartner);
 
         return response(partner);
     }
@@ -50,7 +50,7 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
     public Header<PartnerApiResponse> read(Long id) {
         // TODO Auto-generated method stub
         
-        return partnerRepository.findById(id).map(partner -> response(partner)).orElseGet(() -> Header.Error("해당 데이터 없음."));
+        return baseRepository.findById(id).map(partner -> response(partner)).orElseGet(() -> Header.Error("해당 데이터 없음."));
 
     }
 
@@ -60,7 +60,7 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
         
         PartnerApiRequest body = request.getData();
 
-        return partnerRepository.findById(body.getId()).map(partner -> partner.setName(body.getName())
+        return baseRepository.findById(body.getId()).map(partner -> partner.setName(body.getName())
                                                                         .setStatus(body.getStatus())
                                                                         .setAddress(body.getAddress())
                                                                         .setCallCenter(body.getCallCenter())
@@ -74,7 +74,7 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
                                                                         .setUpdatedAt(body.getUpdatedAt())
                                                                         .setUpdatedBy(body.getUpdatedBy())
                                                                         .setCategory(categoryRepository.getOne(body.getCategoryId())))
-                                                        .map(partner -> partnerRepository.save(partner))
+                                                        .map(partner -> baseRepository.save(partner))
                                                         .map(partner -> response(partner))
                                                         .orElseGet(() -> Header.Error("해당 값 없음."));
         
@@ -84,8 +84,8 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
     public Header delete(Long id) {
         // TODO Auto-generated method stub
  
-        return partnerRepository.findById(id).map(partner -> {
-            partnerRepository.delete(partner);
+        return baseRepository.findById(id).map(partner -> {
+            baseRepository.delete(partner);
             return Header.OK();
         }).orElseGet(() -> Header.Error("해당 사항 없음."));
 

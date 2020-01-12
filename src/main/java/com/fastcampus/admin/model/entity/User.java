@@ -5,11 +5,15 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fastcampus.admin.model.enumclass.UserStatus;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -42,7 +46,8 @@ public class User{
 
     private String password;
 
-    private String status;
+    @Enumerated(EnumType.STRING) // 클래스 값을 Enum으로 지정해 줄 수 있음
+    private UserStatus status; // 고정된 값을 사용 => 변수를 enum화 시켜야 함. enum 클래스를 생성함.
 
 	private String email;
 	

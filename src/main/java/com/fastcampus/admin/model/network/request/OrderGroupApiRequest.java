@@ -3,6 +3,8 @@ package com.fastcampus.admin.model.network.request;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fastcampus.admin.model.enumclass.OrderType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +22,7 @@ public class OrderGroupApiRequest{
 
     private String status;
 
-    private String orderType;
+    private OrderType orderType;
 
     private String revAddress;
 

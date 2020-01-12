@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fastcampus.admin.DemoApplicationTests;
 import com.fastcampus.admin.model.entity.User;
+import com.fastcampus.admin.model.enumclass.UserStatus;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class UserRepositoryTest extends DemoApplicationTests{
 
         user.setAccount(account);
         user.setPassword(password);
-        user.setStatus(status);
+        user.setStatus(UserStatus.REGISTERED);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
