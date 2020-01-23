@@ -1,9 +1,7 @@
 package com.fastcampus.admin.model.network.response;
 
 import java.time.LocalDateTime;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import java.util.List;
 
 import com.fastcampus.admin.model.enumclass.UserStatus;
 
@@ -33,5 +31,7 @@ public class UserApiResponse{
     private LocalDateTime registeredAt;
 
     private LocalDateTime unregisteredAt;
+
+    private List<OrderGroupApiResponse> orderGroupApiResponseList;
 
 }

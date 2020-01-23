@@ -2,6 +2,7 @@ package com.fastcampus.admin.model.network.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fastcampus.admin.model.enumclass.OrderType;
 
@@ -45,5 +46,7 @@ public class OrderGroupApiResponse{
     private LocalDateTime updatedAt;
 
     private String updatedBy;
+
+    private List<ItemApiResponse> ItemApiResponseList;
 
 }

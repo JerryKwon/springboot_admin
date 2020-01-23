@@ -1,13 +1,18 @@
 package com.fastcampus.admin.controller.api;
 
+import java.util.List;
+
 import com.fastcampus.admin.ifs.CrudInterface;
 import com.fastcampus.admin.model.network.Header;
 import com.fastcampus.admin.model.network.request.UserApiRequest;
 import com.fastcampus.admin.model.network.response.UserApiResponse;
-import com.fastcampus.admin.repository.UserRepository;
+import com.fastcampus.admin.model.network.response.UserOrderInfoApiResponse;
 import com.fastcampus.admin.service.UserApiLogicService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +31,20 @@ public class UserApiController implements CrudInterface<UserApiRequest,UserApiRe
 
     @Autowired
     private UserApiLogicService userApiLogicService;
+
+    @GetMapping("/{id}/orderInfo")
+    public Header<UserOrderInfoApiResponse> orderInfo(@PathVariable Long id){
+        return userApiLogicService.orderInfo(id);
+
+    }
+
+    //pagenation setting 
+    @GetMapping("")
+    public Header<List<UserApiResponse>> search(@PageableDefault(sort = "id",direction = Sort.Direction.ASC,size = 15) Pageable pageable){
+        log.info("{}",pageable);
+        
+        return userApiLogicService.search(pageable);
+    }
 
     @Override
     @PostMapping("") //     /api/user

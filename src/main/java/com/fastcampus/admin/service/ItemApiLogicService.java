@@ -113,7 +113,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest,ItemApiRespo
     }
 
     // 동작한 내용에 대해 응답하여 Header를 부르는 함수
-    private Header<ItemApiResponse> response(Item item){
+    public Header<ItemApiResponse> response(Item item){
 
         // item.getStatus().getTitle(); 로 api에 실제 값이 아닌 title을 넘겨줄 수 도 있음!
 
